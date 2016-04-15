@@ -1,7 +1,7 @@
-Angular1 Scaffold Frontend
-==========================
+Angular1 Seed
+=============
 
-This is the scaffold of a frontend app.
+This is the seed of a frontend app.
 Clone it to quickly create angular apps using browserify.
 
 
@@ -15,12 +15,12 @@ Using it
    $ cd your-app
    ```
 
-2. Synchronize the scaffold
+2. Synchronize the seed
 
    ```bash
-   $ git remote add scaffold https://github.com/drpicox/angular1-scaffold.git
-   $ git pull scaffold master
-   $ git remote remove scaffold
+   $ git remote add seed https://github.com/drpicox/angular1-seed.git
+   $ git pull seed master
+   $ git remote remove seed
    ```
 
 3. Personalize files
@@ -40,6 +40,7 @@ Using it
    	   - update `.navbar-brand`
    - `src/index.js`
        - update `angular.module` name
+       - remove example modules and replace with yours
    - `src/index.spec.js`
        - update `angular.module` name
    - `README.md`
@@ -84,13 +85,13 @@ Start developer environment:
 $ npm run serve
 ```
 
-Re-Synchronize the scaffold
+Re-Synchronize the seed
 ---------------------------
 
-If scaffold improves, you can update your project as follows:
+If seed improves, you can update your project as follows:
 
    ```bash
-   $ git remote add scaffold https://github.com/drpicox/angular1-scaffold.git
-   $ git pull scaffold master
-   $ git remote remove scaffold
+   $ git remote add seed https://github.com/drpicox/angular1-seed.git
+   $ git pull seed master
+   $ git remote remove seed
    ```
