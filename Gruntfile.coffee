@@ -4,12 +4,6 @@ portServe = 9259
 
 module.exports = (grunt) ->
 
-	aliasify = [ 'aliasify', do ->
-		replacements = {}
-		replacements["#{appCodename}-([^.]+)"] = './src/$1'
-		replacements: replacements
-	]
-
 	grunt.initConfig
 
 		autoprefixer:
@@ -26,24 +20,26 @@ module.exports = (grunt) ->
 				files: '.tmp/bundle.js': [ 'src/index.js']
 				options:
 					watch: true
-					browserifyOptions: { debug: true }
+					browserifyOptions: debug:true
 					transform: [
-						aliasify
 						'hintify'
-						[ 'stringify', 'extensions': [ '.html' ] ]
+						[ 'stringify', appliesTo: ['.html'], minify:true ]
+						[ 'babelify' , sourceMap:true, presets:['es2015'] ]
 						'browserify-ngannotate'
 						'envify'
 					]
 			www:
 				files: '.tmp/bundle.js': [ 'src/index.js']
 				options: transform: [
-					aliasify
 					'hintify'
-					[ 'stringify', 'extensions': [ '.html' ], "minify": true, ]
+					[ 'stringify', appliesTo: ['.html'], minify:true ]
+					[ 'babelify' , sourceMap:true, presets:['es2015'] ]
 					'browserify-ngannotate'
 					'envify'
 					'uglifyify'
 				]
+
+		checkDependencies: 'package.json': options: install:true
 
 		clean:
 			www: files: [ dot: true, src: [ 'www/*','!www/.git' ], ]
@@ -61,7 +57,7 @@ module.exports = (grunt) ->
 
 		connect:
 			options:
-				hostname: '0.0.0.0', open:true, port: portServe, livereload: 10000+portServe
+				hostname:'0.0.0.0', open:false, port:portServe, livereload:10000+portServe
 			livereload:	options: base: [ '.tmp','src','.' ]
 
 		filerev: build: src: 'www/*.{js,css}'
@@ -88,6 +84,8 @@ module.exports = (grunt) ->
 				includePaths: [ 'src/', '.' ]
 				sourceMap: true
 
+		uglify: options: sourceMapIncludeSources:true, screwIE8:true
+
 		useminPrepare:
 			html: 'src/index.html'
 			options: dest: 'www'
@@ -110,12 +108,15 @@ module.exports = (grunt) ->
 				]
 
 	grunt.registerTask 'test', [
+		'checkDependencies'
 		'clean'
 		'browserify:dev'
+		'babel'
 		'karma:unit'
 	]
 
 	grunt.registerTask 'serve', [
+		'checkDependencies'
 		'clean'
 		'browserify:dev'
 		styles
@@ -127,6 +128,7 @@ module.exports = (grunt) ->
 	]
 
 	grunt.registerTask 'build', [
+		'checkDependencies'
 		'clean'
 		'browserify:www'
 		'karma:unit'
@@ -145,6 +147,7 @@ module.exports = (grunt) ->
 	# load dinamically as needed grunt plugins
 	require('jit-grunt')(grunt, {
 		useminPrepare: 'grunt-usemin'
+		checkDependencies: 'grunt-check-dependencies'
 	})
 
 	# make stats of time consuming tasks

@@ -1,10 +1,10 @@
 // See: http://jasmine.github.io/2.4/introduction.html
-describe('drpxScaffoldApp', function() {
+describe('drpxSeedApp', function() {
 
 	it('should exists', function() {
 
-		var drpxScaffoldApp = angular.module('drpxScaffoldApp');
-		expect(drpxScaffoldApp).toBeDefined();
+		var drpxSeedApp = angular.module('drpxSeedApp');
+		expect(drpxSeedApp).toBeDefined();
 	});
 
 });
